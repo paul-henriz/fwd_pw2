@@ -4,7 +4,16 @@
       <v-col>
         <v-card class="pa-2" outlined tile>
           <v-text-field label="Nom de l'exercice"></v-text-field>
-          <v-select v-model="lang" :items="languages" label="Langage" required></v-select>
+          <v-select
+            v-model="lang"
+            :items="languages"
+            item-text="name"
+            item-value="mode"
+            label="Langage"
+            @change="changeLanguage"
+            return-object
+            required
+          ></v-select>
           <v-btn color="primary" depressed>
             <v-icon>save</v-icon>
             Sauvegarder
@@ -21,7 +30,6 @@
       <v-col>
         <v-card class="pa-2" outlined tile>
           <div id="editor" class="exercise-editor-ace-editor"></div>
-
         </v-card>
       </v-col>
     </v-row>
@@ -37,23 +45,29 @@ import 'ace-builds/webpack-resolver'
 export default {
   name: 'Home',
   data: () => ({
-    languages: ['Python'],
+    languages: [
+      { mode: 'python', name: 'Python' },
+      { mode: 'javascript', name: 'Javascript' }
+    ],
     editor: null,
-    lang: 'python'
+    lang: { mode: 'python', name: 'Python' }
   }),
   mounted () {
     this.editor = ace.edit('editor')
     this.editor.setTheme('ace/theme/monokai')
-    this.editor.session.setMode(`ace/mode/${this.lang}`)
-    this.editor.setValue('Ne marche pas :(')
+    this.editor.session.setMode(`ace/mode/${this.lang.mode}`)
+  },
+  methods: {
+    changeLanguage () {
+      this.editor.session.setMode(`ace/mode/${this.lang.mode}`)
+    }
   }
-
 }
 </script>
 
 <style>
 .exercise-editor-ace-editor {
- position: relative;
- height: 20rem;
+  position: relative;
+  height: 20rem;
 }
 </style>
