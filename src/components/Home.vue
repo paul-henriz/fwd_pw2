@@ -3,7 +3,7 @@
     <v-row class="mb-6" no-gutters>
       <v-col>
         <v-card class="pa-2" outlined tile>
-          <v-text-field label="Nom de l'exercice"></v-text-field>
+          <v-text-field v-model="exerciseName" label="Nom de l'exercice"></v-text-field>
           <v-select
             v-model="lang"
             :items="languages"
@@ -14,12 +14,13 @@
             return-object
             required
           ></v-select>
-          <v-btn color="primary" depressed>
+          <v-btn color="primary" @click="saveExercise" depressed>
             <v-icon>save</v-icon>
             Sauvegarder
           </v-btn>
           <h2>Consignes</h2>
           <v-textarea
+            v-model="instructions"
             name="input-7-1"
             filled
             auto-grow
@@ -29,7 +30,15 @@
       </v-col>
       <v-col>
         <v-card class="pa-2" outlined tile>
-          <div id="editor" class="exercise-editor-ace-editor"></div>
+          <h2>Tests</h2>
+          <div id="tests" class="exercise-editor-ace-editor"></div>
+          <h2>Sandbox</h2>
+          <div id="sandbox" class="exercise-editor-ace-editor"></div>
+          <br>
+          <v-btn color="primary" @click="launchSandbox" depressed>
+            <v-icon>play_arrow</v-icon>
+            Lancer sandbox
+          </v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -45,21 +54,45 @@ import 'ace-builds/webpack-resolver'
 export default {
   name: 'Home',
   data: () => ({
+    exerciseName: '',
+    instructions: '',
     languages: [
       { mode: 'python', name: 'Python' },
       { mode: 'javascript', name: 'Javascript' }
     ],
-    editor: null,
+    tests: null,
+    sandbox: null,
     lang: { mode: 'python', name: 'Python' }
   }),
   mounted () {
-    this.editor = ace.edit('editor')
-    this.editor.setTheme('ace/theme/monokai')
-    this.editor.session.setMode(`ace/mode/${this.lang.mode}`)
+    this.tests = ace.edit('tests')
+    this.tests.setTheme('ace/theme/monokai')
+    this.tests.session.setMode(`ace/mode/${this.lang.mode}`)
+
+    this.sandbox = ace.edit('sandbox')
+    this.sandbox.setTheme('ace/theme/monokai')
+    this.sandbox.session.setMode(`ace/mode/${this.lang.mode}`)
   },
   methods: {
     changeLanguage () {
-      this.editor.session.setMode(`ace/mode/${this.lang.mode}`)
+      this.tests.session.setMode(`ace/mode/${this.lang.mode}`)
+      this.sandbox.session.setMode(`ace/mode/${this.lang.mode}`)
+    },
+    async saveExercise () {
+      await this.axios.post('http://localhost:3000/api/v1/exercise', {
+        instructions: this.instructions,
+        lang: this.lang.mode,
+        title: this.exerciseName,
+        tests: this.tests.getValue(),
+        creation_date: new Date()
+      })
+    },
+    async launchSandbox () {
+      await this.axios.post('http://localhost:3000/api/v1/exercise/sandbox', {
+        lang: this.lang.mode,
+        tests: this.tests.getValue(),
+        solution: this.sandbox.getValue()
+      })
     }
   }
 }
