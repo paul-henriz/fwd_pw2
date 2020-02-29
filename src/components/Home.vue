@@ -3,7 +3,10 @@
     <v-row class="mb-6" no-gutters>
       <v-col>
         <v-card class="pa-2" outlined tile>
-          <v-text-field v-model="exerciseName" label="Nom de l'exercice"></v-text-field>
+          <v-text-field
+            v-model="exerciseName"
+            label="Nom de l'exercice"
+          ></v-text-field>
           <v-select
             v-model="lang"
             :items="languages"
@@ -34,11 +37,29 @@
           <div id="tests" class="exercise-editor-ace-editor"></div>
           <h2>Sandbox</h2>
           <div id="sandbox" class="exercise-editor-ace-editor"></div>
-          <br>
+          <br />
           <v-btn color="primary" @click="launchSandbox" depressed>
             <v-icon>play_arrow</v-icon>
             Lancer sandbox
           </v-btn>
+          <br />
+          <br />
+          <v-alert
+            text
+            v-for="test in resultSandbox"
+            :key="test.line"
+            :type="!test.failure ? 'success' : 'warning'"
+            transition="scale-transition"
+            ><v-tooltip left>
+              <template v-slot:activator="{ on }">
+                <h5 v-on="on">{{ test.name }}</h5>
+              </template>
+              <span
+                >Durée d'exécution: {{ test.time }}s
+                <p v-if="test.failure">{{ test.failure.message }}</p></span
+              >
+            </v-tooltip>
+          </v-alert>
         </v-card>
       </v-col>
     </v-row>
@@ -62,7 +83,8 @@ export default {
     ],
     tests: null,
     sandbox: null,
-    lang: { mode: 'python', name: 'Python' }
+    lang: { mode: 'python', name: 'Python' },
+    resultSandbox: []
   }),
   mounted () {
     this.tests = ace.edit('tests')
@@ -88,11 +110,17 @@ export default {
       })
     },
     async launchSandbox () {
-      await this.axios.post('http://localhost:3000/api/v1/exercise/sandbox', {
-        lang: this.lang.mode,
-        tests: this.tests.getValue(),
-        solution: this.sandbox.getValue()
-      })
+      const result = await this.axios.post(
+        'http://localhost:3000/api/v1/exercise/sandbox',
+        {
+          lang: this.lang.mode,
+          tests: this.tests.getValue(),
+          solution: this.sandbox.getValue()
+        }
+      )
+      this.resultSandbox = result.data.result.tests.sort(
+        (_x, _y) => _x.line - _y.line
+      )
     }
   }
 }
