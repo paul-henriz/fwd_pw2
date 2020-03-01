@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="dark" dense dark>
+    <v-app-bar app color="dark" dense dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-btn icon>
         <v-icon>keyboard_arrow_left</v-icon>
