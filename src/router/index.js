@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/HomeView.vue'
+
+import TeacherEditor from '../views/TeacherEditorView.vue'
 import Login from '../views/LoginView.vue'
+import ModulesList from '../views/ModulesListVue.vue'
+
 import store from '../store/index'
 
 Vue.use(VueRouter)
@@ -19,9 +22,9 @@ async function beforeEnter (_to, _from, next) {
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home,
+    path: '/editExercise',
+    name: 'editExercise',
+    component: TeacherEditor,
     beforeEnter
   },
 
@@ -29,6 +32,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+
+  {
+    path: '/',
+    name: 'modulesList',
+    component: ModulesList
   }
 ]
 

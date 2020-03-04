@@ -9,7 +9,7 @@
 import Home from '@/components/Home.vue'
 
 export default {
-  name: 'HomeView',
+  name: 'TeacherEditorView',
   components: {
     Home
   }
