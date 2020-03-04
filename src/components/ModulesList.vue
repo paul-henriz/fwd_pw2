@@ -13,7 +13,7 @@
                 md="2"
               >
                 <v-item>
-                  <v-card dark>
+                  <v-card dark max-height="200" max-width="400">
                     <v-card-text>
                       <p>{{ s.name }}</p>
                     </v-card-text>
