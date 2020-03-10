@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import TeacherEditor from '../views/TeacherEditorView.vue'
 import Login from '../views/LoginView.vue'
 import ModulesList from '../views/ModulesListVue.vue'
+import Module from '../views/ModuleView.vue'
 
 import store from '../store/index'
 
@@ -38,6 +39,13 @@ const routes = [
     path: '/',
     name: 'modulesList',
     component: ModulesList,
+    beforeEnter
+  },
+
+  {
+    path: '/module/:id',
+    name: 'Module',
+    component: Module,
     beforeEnter
   }
 ]

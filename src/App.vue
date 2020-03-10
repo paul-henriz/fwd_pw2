@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app color="dark" dense dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-btn icon>
+      <v-btn icon @click="goBack">
         <v-icon>keyboard_arrow_left</v-icon>
       </v-btn>
       <v-btn icon>
@@ -25,6 +25,12 @@
 export default {
   name: 'App',
 
-  data: () => ({})
+  data: () => ({}),
+
+  methods: {
+    goBack () {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+    }
+  }
 }
 </script>

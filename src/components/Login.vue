@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   data: () => ({
@@ -56,13 +58,13 @@ export default {
   }),
 
   methods: {
+    ...mapActions('user', ['login']),
     async buttonClicked () {
       try {
-        const result = await this.axios.post('http://localhost:3000/api/v1/login', {
-          username: this.username,
+        await this.login({
+          email: this.username,
           password: this.password
         })
-        this.$root.user = result.data
         this.$router.push('/')
       } catch (err) {
         this.errorLogin = true
