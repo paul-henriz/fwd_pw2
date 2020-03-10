@@ -37,7 +37,8 @@ const routes = [
   {
     path: '/',
     name: 'modulesList',
-    component: ModulesList
+    component: ModulesList,
+    beforeEnter
   }
 ]
 

@@ -10,7 +10,7 @@
                 v-for="s in getSessionsByModuleId(m.id)"
                 :key="s.id"
                 cols="12"
-                md="2"
+                md="3"
               >
                 <v-item>
                   <v-card dark max-height="200" max-width="400">
