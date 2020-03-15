@@ -5,6 +5,7 @@ import TeacherEditor from '../views/TeacherEditorView.vue'
 import Login from '../views/LoginView.vue'
 import ModulesList from '../views/ModulesListVue.vue'
 import Module from '../views/ModuleView.vue'
+import DoExercise from '../views/DoExercise.vue'
 
 import store from '../store/index'
 
@@ -46,6 +47,13 @@ const routes = [
     path: '/module/:id',
     name: 'Module',
     component: Module,
+    beforeEnter
+  },
+
+  {
+    path: '/session/:id/:idexo/do',
+    name: 'DoExercise',
+    component: DoExercise,
     beforeEnter
   }
 ]

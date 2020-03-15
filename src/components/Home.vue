@@ -1,5 +1,5 @@
 <template>
-  <v-container class="grey lighten-5">
+  <v-container>
     <v-row class="mb-6" no-gutters>
       <v-col>
         <v-card class="pa-2" outlined tile>

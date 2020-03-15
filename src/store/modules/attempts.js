@@ -61,7 +61,7 @@ const actions = {
     const results = (await axios.post(api(url), { solution })).data
     commit('setLastAttemptResults', { results: results.result })
     if (!results.result.stats.errors && !results.result.stats.failures) {
-      commit('exercises/setValidated', { exerciseId }, { root: true })
+      // commit('exercises/setValidated', { exerciseId }, { root: true })
     }
   }
 }

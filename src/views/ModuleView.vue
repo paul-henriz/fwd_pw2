@@ -4,7 +4,7 @@
     <v-row xs12 sm8 md12 style="max-width: 88rem; margin: 2em">
       <v-col v-for="s in sessions" :key="s.id" cols="12">
         <h2>
-          <router-link :to="`/session/${s.id}`">{{ s.name }}</router-link>
+          <router-link :to="`/session/${s.id}/${getExercisesBySessionId(s.id)[0].id}/do`">{{ s.name }}</router-link>
         </h2>
         <v-row justify="start">
           <v-card
